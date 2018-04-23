@@ -32,12 +32,12 @@ namespace UnitTestCodeChallenge
             bool result0, result1, result2, result3, result4, result5;
 
             //Act
-            result0 = Palindrome.isValidAlphaNum(candidate0);
-            result1 = Palindrome.isValidAlphaNum(candidate1);
-            result2 = Palindrome.isValidAlphaNum(candidate2);
-            result3 = Palindrome.isValidAlphaNum(candidate3);
-            result4 = Palindrome.isValidAlphaNum(candidate4);
-            result5 = Palindrome.isValidAlphaNum(candidate5);
+            result0 = Palindrome.IsValidAlphaNum(candidate0);
+            result1 = Palindrome.IsValidAlphaNum(candidate1);
+            result2 = Palindrome.IsValidAlphaNum(candidate2);
+            result3 = Palindrome.IsValidAlphaNum(candidate3);
+            result4 = Palindrome.IsValidAlphaNum(candidate4);
+            result5 = Palindrome.IsValidAlphaNum(candidate5);
 
             //Assert
             Assert.AreEqual(expResult0, result0);
