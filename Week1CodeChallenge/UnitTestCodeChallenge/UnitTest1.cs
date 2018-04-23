@@ -9,7 +9,7 @@ namespace UnitTestCodeChallenge
     public class UnitTestPalindrome
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestIsValidPalindromAlphaNum()
         {
             //Assemble Phase
             //Positive tests
