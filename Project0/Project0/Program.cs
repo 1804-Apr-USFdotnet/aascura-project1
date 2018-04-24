@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization.Json;
+
 
 using ClassLibraryProject0;
+using System.IO;
 
 namespace Project0
 {
@@ -96,6 +99,47 @@ namespace Project0
             }
         }
 
+        
+        static void testSerialize()
+        {
+            Review review1 = new Review("testname1", "testcomment1", 5M, new DateTime(1,1,1,1,1,1));
+            Review review2 = new Review("TESTNAME2", "TESTCOMMENT2", 8M, new DateTime(2,2,2,2,2,2));
+            List<Review> reviews = new List<Review>();
+
+            reviews.Add(review1);
+            reviews.Add(review2);
+            
+            Restaurant restaurant = new Restaurant("restname", "restaddress","123456789", reviews);
+            string jsonString = restaurant.toJsonString();
+            Console.WriteLine(jsonString);
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Restaurant restaurant2 = new Restaurant(jsonString);
+            string jsonString2 = restaurant2.toJsonString();
+            Console.WriteLine(jsonString2);
+            /*MemoryStream ms = new MemoryStream();
+
+            try
+            {
+                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Restaurant));
+                ms.Position = 0;
+                StreamReader sr = new StreamReader(ms);
+                ser.WriteObject(ms, restaurant);
+                ms.Position = 0;
+                Console.WriteLine("JSON form of User object: " + sr.ReadToEnd());
+                //ms.Position = 0;  // sets position of memory stream back to start
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                ms.Close();
+            }*/
+        }
+        
         static void Main(string[] args)
         {
             string input;
@@ -104,11 +148,13 @@ namespace Project0
             Console.WriteLine("YO.  PROGRAM STARTING UP.");
             Console.WriteLine("WELCOME TO PROJECT 0.");
 
-            do
+            /*do
             {
                 DisplayMenu();
                 ProcessInput(out input);
-            } while (input.ToUpper() != Commands.quit);
+            } while (input.ToUpper() != Commands.quit);*/
+            testSerialize();
+            Console.ReadKey();
         }
     }
 }

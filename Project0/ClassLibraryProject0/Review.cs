@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace ClassLibraryProject0
 {
-    public class Review
+    //[Serializable()]
+    [DataContract]
+    public class Review //: ISerializable
     {
         public static decimal MAX_RATING = 10M;
         public static decimal MIN_RATING = 0M;
 
+//        [DataMember]
         public decimal _rating;
+        [DataMember]
         public string comment { get; private set; }
+        [DataMember]
         public string name { get; private set; }
+        [DataMember]
         public DateTime dateTime { get; private set; }
 
         public Review(string name, string comment, decimal rating, DateTime dateTime)
@@ -31,6 +38,11 @@ namespace ClassLibraryProject0
             rating = toCopy.rating;
             dateTime = toCopy.dateTime;
         }
+
+        /*public Review(SerializationInfo info, StreamingContext context)
+        {
+            
+        }*/
 
         public decimal rating
         {
@@ -52,6 +64,12 @@ namespace ClassLibraryProject0
             }
         }
 
-
+        /*public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("ReviewerName", name);
+            info.AddValue("ReviewRating", rating);
+            info.AddValue("ReviewComment", comment);
+            info.AddValue("ReviewDate", dateTime);
+        }*/
     }
 }

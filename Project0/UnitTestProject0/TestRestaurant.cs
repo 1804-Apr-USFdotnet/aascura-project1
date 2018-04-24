@@ -35,6 +35,9 @@ namespace UnitTestProject0
         [TestMethod]
         public void TestGetAverage()
         {
+            string a = "This is a test";
+            string b = "This is a test";
+            Assert.AreNotEqual(a, b);
             //Arrange
             //Act
             //Assert
