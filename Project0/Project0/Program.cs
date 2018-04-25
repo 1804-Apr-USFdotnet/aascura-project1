@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Json;
 
 using ClassLibraryProject0;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Project0
 {
@@ -40,14 +41,23 @@ namespace Project0
             Console.WriteLine("HEY.  THIS IS INVALID INPUT.  READ THE MENU MORE CAREFULLY.");
         }
 
-        static void DisplayTopThree()
+        static void DisplayTopThree(RestaurantList toParse)
         {
-            Console.WriteLine("TOP THREE");
+            List<Restaurant> topThree = toParse.TopThree();
+            foreach (Restaurant current in topThree)
+            {
+                Console.WriteLine("Name: {0}", current.name);
+                Console.WriteLine("Rating: {0}", current.GetAverage());
+            }
         }
 
-        static void DisplayAllRestaurants()
+        static void DisplayAllRestaurants(RestaurantList toDisplay)
         {
-            Console.WriteLine("ALL RESTAURANTS");
+            Console.WriteLine("Restaurant Names");
+            foreach (Restaurant current in toDisplay)
+            {
+                Console.WriteLine(current.name);
+            }
         }
 
         static void DisplayRestaurantDetails()
@@ -55,9 +65,38 @@ namespace Project0
             Console.WriteLine("RESTAURANT DETAILS");
         }
 
-        static void DisplayRestaurantReviews()
+        static void DisplayRestaurantReviews(RestaurantList restaurantList)
         {
-            Console.WriteLine("REVIEWS");
+            Restaurant toDisplay;
+            int index = 0;
+            string input;
+            //Some logic to select a single restaurant
+            bool inputIsValid;
+            do
+            {
+                Console.Write("Please enter restaurant index >");
+                input = Console.ReadLine();
+                inputIsValid = ValidIndex(input, ref index);
+                if (index < 0 || index > (restaurantList.Count - 1))
+                {
+                    inputIsValid = false;
+                    Console.WriteLine("Error: index out of bounds.  Enter value between {0} and {1}", 0, restaurantList.Count- 1);
+                }
+            } while (!inputIsValid);
+
+            toDisplay = restaurantList[index];
+
+            Console.WriteLine("Reviews for " + toDisplay.name);
+            List<Review> reviews = toDisplay.GetReviews();
+            foreach (Review current in reviews)
+            {
+                Console.WriteLine("Reviewer Name: " + current.name);
+                Console.WriteLine("Rating: " + current.rating);
+                Console.WriteLine("Review Date: " + current.dateTime);
+                Console.WriteLine("Coments: " + current.comment);
+
+            }
+            
         }
 
         static void SearchRestaurants()
@@ -65,18 +104,20 @@ namespace Project0
             Console.WriteLine("SEARCH");
         }
 
-        static void ProcessInput(out string input)
+
+
+        static void ProcessMainMenuInput(out string input, RestaurantList restaurants)
         {
             input = Console.ReadLine();
             input = input.ToUpper();
 
             if (input == Commands.topThree)
             {
-                DisplayTopThree();
+                DisplayTopThree(restaurants);
             }
             else if (input == Commands.allRestaurants)
             {
-                DisplayAllRestaurants();
+                DisplayAllRestaurants(restaurants);
             }
             else if (input == Commands.restaurantDetails)
             {
@@ -84,7 +125,7 @@ namespace Project0
             }
             else if (input == Commands.restaurantReviews)
             {
-                DisplayRestaurantReviews();
+                DisplayRestaurantReviews(restaurants);
             }
             else if (input == Commands.search)
             {
@@ -99,61 +140,67 @@ namespace Project0
             }
         }
 
-        
-        static void testSerialize()
+        static bool ValidIndex(string input, ref int index)
         {
-            Review review1 = new Review("testname1", "testcomment1", 5M, new DateTime(1,1,1,1,1,1));
-            Review review2 = new Review("TESTNAME2", "TESTCOMMENT2", 8M, new DateTime(2,2,2,2,2,2));
-            List<Review> reviews = new List<Review>();
-
-            reviews.Add(review1);
-            reviews.Add(review2);
-            
-            Restaurant restaurant = new Restaurant("restname", "restaddress","123456789", reviews);
-            string jsonString = restaurant.toJsonString();
-            Console.WriteLine(jsonString);
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Restaurant restaurant2 = new Restaurant(jsonString);
-            string jsonString2 = restaurant2.toJsonString();
-            Console.WriteLine(jsonString2);
-            /*MemoryStream ms = new MemoryStream();
-
-            try
+            bool isValid = true;
+            Regex alphanum = new Regex("^[0-9]+$");
+            if (!alphanum.IsMatch(input))
             {
-                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Restaurant));
-                ms.Position = 0;
-                StreamReader sr = new StreamReader(ms);
-                ser.WriteObject(ms, restaurant);
-                ms.Position = 0;
-                Console.WriteLine("JSON form of User object: " + sr.ReadToEnd());
-                //ms.Position = 0;  // sets position of memory stream back to start
+                isValid = false;
             }
-            catch (Exception)
+            else
             {
-                throw;
+                index = int.Parse(input);
             }
-            finally
-            {
-                ms.Close();
-            }*/
+
+            return isValid;
         }
-        
+
+        static void TestInitialize(RestaurantList restaurants)
+        {
+            Review testReview1 = new Review("John", "Good", 9, new DateTime());
+            Review testReview2 = new Review("James", "Meh", 5, new DateTime());
+            Review testReview3 = new Review("Jacob", "Bad", 1, new DateTime());
+            List<Review> testReviews = new List<Review>();
+            testReviews.Add(testReview3);
+
+            Restaurant testRestaurant1 = new Restaurant("Mark's Eatery", "1234 Food Road", "123456789", testReviews);
+
+            testReviews.Add(testReview2);
+
+            Restaurant testRestaurant2 = new Restaurant("Mick's Eatery", "2345 Food Road", "234567891", testReviews);
+
+            testReviews.Add(testReview1);
+            Restaurant testRestaurant3 = new Restaurant("Mary's Eatery", "3456 Food Road", "345678912", testReviews);
+
+            testReviews.Add(testReview1);
+            Restaurant testRestaurant4 = new Restaurant("Mary's Eatery", "3456 Food Road", "345678912", testReviews);
+
+            restaurants.Add(testRestaurant1);
+            restaurants.Add(testRestaurant2);
+            restaurants.Add(testRestaurant3);
+            restaurants.Add(testRestaurant4);
+
+            //Console.WriteLine("Test Data Initialized");
+        }
+
         static void Main(string[] args)
         {
             string input;
-            List<Restaurant> restaurants = new List<Restaurant>();
+            ApplicationManager applicationManager = ApplicationManager.Instance;
+
+            applicationManager.TestMethod();
+            RestaurantList restaurants = new RestaurantList();
+            TestInitialize(restaurants);
 
             Console.WriteLine("YO.  PROGRAM STARTING UP.");
             Console.WriteLine("WELCOME TO PROJECT 0.");
-
-            /*do
+            
+            do
             {
                 DisplayMenu();
-                ProcessInput(out input);
-            } while (input.ToUpper() != Commands.quit);*/
-            testSerialize();
+                ProcessMainMenuInput(out input, restaurants);
+            } while (input.ToUpper() != Commands.quit);
             Console.ReadKey();
         }
     }

@@ -9,19 +9,18 @@ using System.IO;
 
 namespace ClassLibraryProject0
 {
-    //[Serializable()]
     [DataContract]
-    public class Restaurant //: ISerializable
+    public class Restaurant : IComparable<Restaurant>
     {
         [DataMember]
-        string name;
+        public string name { get; private set; }
         [DataMember]
-        string address;
+        public string address { get; private set; }
         [DataMember]
-        string phoneNum;
+        public string phoneNum { get; private set; }
 
         [DataMember]
-        List<Review> reviews;
+        private List<Review> reviews;
 
         public Restaurant(string name, string address, string phoneNum, List<Review> reviews)
         {
@@ -49,66 +48,16 @@ namespace ClassLibraryProject0
             }
         }
 
-        public Restaurant(string jsonString)
+        public List<Review> GetReviews()
         {
-            MemoryStream ms = new MemoryStream();
-            try
+            List<Review> toReturn = new List<Review>();
+            foreach (Review current in reviews)
             {
-                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Restaurant));
-                byte[] bytes = Encoding.ASCII.GetBytes(jsonString);
-                ms.Write(bytes, 0,Encoding.ASCII.GetByteCount(jsonString));
-                ms.Position = 0;
-                Restaurant toCopy = (Restaurant)ser.ReadObject(ms);
-                name = (string)toCopy.name.Clone();
-                address = (string)toCopy.address.Clone();
-                phoneNum = (string)toCopy.phoneNum.Clone();
-                reviews = new List<Review>();
-                foreach (Review current in toCopy.reviews)
-                {
-                    reviews.Add(new Review(current));
-                }
+                toReturn.Add(current.Clone());
             }
-            catch (ArgumentNullException)
-            {
-                throw;
-            }
-            catch (EncoderFallbackException)
-            {
-                throw;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (ObjectDisposedException)
-            {
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                throw;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                ms.Close();
-            }
+            return toReturn;
         }
 
-       /* public Restaurant(SerializationInfo info, StreamingContext context)
-        {
-            name = (string)info.GetValue("RestaurantName", typeof(string));
-            address = (string)info.GetValue("RestaurantAddress", typeof(string));
-            phoneNum = (string)info.GetValue("RestaurantPhoneNum", typeof(string));
-
-        }*/
 
         public decimal GetAverage()
         {
@@ -120,42 +69,40 @@ namespace ClassLibraryProject0
             return (ratingSum / reviews.Count);
         }
 
-        public string toJsonString()
+        public int CompareTo(Restaurant other)
         {
-            string jsonString;
-
-            MemoryStream ms = new MemoryStream();
-
-            try
+            decimal difference;
+            if (other == null)
             {
-                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Restaurant));
-                ms.Position = 0;
-                StreamReader sr = new StreamReader(ms);
-                ser.WriteObject(ms, this);
-                ms.Position = 0;
-                jsonString = sr.ReadToEnd();
+                return 1;
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                ms.Close();
-            }
-
-            return jsonString;
+            difference = this.GetAverage() - other.GetAverage();
+            return (int) difference;
         }
 
-        /*public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public bool Contains(string toFind)
         {
-            info.AddValue("RestaurantName", name);
-            info.AddValue("RestaurantAddress", address);
-            info.AddValue("RestaurantPhoneNum", phoneNum);
-            foreach (Review item in reviews)
+            bool isFound = false;
+
+            if (name.Contains(toFind))
             {
-                info.AddValue("RestaurantReview", item);
-            }       
-        }*/
+                isFound = true;
+            }
+            if (address.Contains(toFind))
+            {
+                isFound = true;
+            }
+            if (phoneNum.Contains(toFind))
+            {
+                isFound = true;
+            }
+            return isFound;
+        }
+
+        public Restaurant Copy ()
+        {
+            Restaurant copy = new Restaurant(this);
+            return copy;
+        }
     }
 }

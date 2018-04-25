@@ -7,14 +7,12 @@ using System.Runtime.Serialization;
 
 namespace ClassLibraryProject0
 {
-    //[Serializable()]
     [DataContract]
-    public class Review //: ISerializable
+    public class Review
     {
         public static decimal MAX_RATING = 10M;
         public static decimal MIN_RATING = 0M;
 
-//        [DataMember]
         public decimal _rating;
         [DataMember]
         public string comment { get; private set; }
@@ -39,11 +37,6 @@ namespace ClassLibraryProject0
             dateTime = toCopy.dateTime;
         }
 
-        /*public Review(SerializationInfo info, StreamingContext context)
-        {
-            
-        }*/
-
         public decimal rating
         {
             get { return _rating; }
@@ -64,12 +57,10 @@ namespace ClassLibraryProject0
             }
         }
 
-        /*public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public Review Clone()
         {
-            info.AddValue("ReviewerName", name);
-            info.AddValue("ReviewRating", rating);
-            info.AddValue("ReviewComment", comment);
-            info.AddValue("ReviewDate", dateTime);
-        }*/
+            Review toReturn = new Review((string)name.Clone(), (string)comment.Clone(), rating, dateTime);
+            return toReturn;
+        }
     }
 }

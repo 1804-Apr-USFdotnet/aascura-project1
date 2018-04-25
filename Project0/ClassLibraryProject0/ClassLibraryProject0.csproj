@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Restaurant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestaurantList.cs" />
+    <Compile Include="RestaurantSerializer.cs" />
     <Compile Include="Review.cs" />
   </ItemGroup>
   <ItemGroup>
