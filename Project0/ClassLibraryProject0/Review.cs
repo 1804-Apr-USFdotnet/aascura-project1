@@ -23,16 +23,16 @@ namespace ClassLibraryProject0
 
         public Review(string name, string comment, decimal rating, DateTime dateTime)
         {
-            this.name = (string)name.Clone();
-            this.comment = (string)comment.Clone();
+            this.name = String.Copy(name);
+            this.comment = String.Copy(comment);
             this.rating = rating;
             this.dateTime = dateTime;
         }
 
         public Review(Review toCopy)
         {
-            name = (string)toCopy.name.Clone();
-            comment = (string)toCopy.comment.Clone();
+            name = String.Copy(toCopy.name);
+            comment = String.Copy(toCopy.comment);
             rating = toCopy.rating;
             dateTime = toCopy.dateTime;
         }
@@ -57,9 +57,9 @@ namespace ClassLibraryProject0
             }
         }
 
-        public Review Clone()
+        public Review Copy()
         {
-            Review toReturn = new Review((string)name.Clone(), (string)comment.Clone(), rating, dateTime);
+            Review toReturn = new Review(String.Copy(name), String.Copy(comment), rating, dateTime);
             return toReturn;
         }
     }

@@ -10,7 +10,7 @@ using System.IO;
 namespace ClassLibraryProject0
 {
     [DataContract]
-    public class Restaurant : IComparable<Restaurant>
+    public class Restaurant /*: IComparable<Restaurant>*/
     {
         [DataMember]
         public string name { get; private set; }
@@ -24,9 +24,9 @@ namespace ClassLibraryProject0
 
         public Restaurant(string name, string address, string phoneNum, List<Review> reviews)
         {
-            this.name = (string)name.Clone();
-            this.address = (string)address.Clone();
-            this.phoneNum = (string)phoneNum.Clone();
+            this.name = String.Copy(name);
+            this.address = String.Copy(address);
+            this.phoneNum = String.Copy(phoneNum);
             this.reviews = new List<Review>();
 
             foreach (Review current in reviews)
@@ -37,9 +37,9 @@ namespace ClassLibraryProject0
 
         public Restaurant(Restaurant toCopy)
         {
-            name = (string)toCopy.name.Clone();
-            address = (string)toCopy.address.Clone();
-            phoneNum = (string)toCopy.phoneNum.Clone();
+            name = String.Copy(toCopy.name);
+            address = String.Copy(toCopy.address);
+            phoneNum = String.Copy(toCopy.phoneNum);
             reviews = new List<Review>();
 
             foreach (Review current in toCopy.reviews)
@@ -53,7 +53,7 @@ namespace ClassLibraryProject0
             List<Review> toReturn = new List<Review>();
             foreach (Review current in reviews)
             {
-                toReturn.Add(current.Clone());
+                toReturn.Add(current.Copy());
             }
             return toReturn;
         }
@@ -62,14 +62,15 @@ namespace ClassLibraryProject0
         public decimal GetAverage()
         {
             decimal ratingSum = 0;
+
             foreach (Review current in reviews)
             {
                 ratingSum += current.rating;
             }
-            return (ratingSum / reviews.Count);
+            return (reviews.Count > 0)? (ratingSum / reviews.Count) : 0;
         }
 
-        public int CompareTo(Restaurant other)
+/*        public int CompareTo(Restaurant other)
         {
             decimal difference;
             if (other == null)
@@ -78,21 +79,21 @@ namespace ClassLibraryProject0
             }
             difference = this.GetAverage() - other.GetAverage();
             return (int) difference;
-        }
+        }*/
 
         public bool Contains(string toFind)
         {
             bool isFound = false;
 
-            if (name.Contains(toFind))
+            if (name.ToUpper().Contains(toFind.ToUpper()))
             {
                 isFound = true;
             }
-            if (address.Contains(toFind))
+            if (address.ToUpper().Contains(toFind.ToUpper()))
             {
                 isFound = true;
             }
-            if (phoneNum.Contains(toFind))
+            if (phoneNum.ToUpper().Contains(toFind.ToUpper()))
             {
                 isFound = true;
             }

@@ -19,8 +19,8 @@ namespace UnitTestProject0
 
             Review review;
 
-            string expectedName = (string)name.Clone();
-            string expectedComment = (string)comment.Clone();
+            string expectedName = String.Copy(name);
+            string expectedComment = String.Copy(comment);
             decimal expectedRating = rating;
             DateTime expectedDateTime = dateTime;
 
@@ -33,11 +33,15 @@ namespace UnitTestProject0
             dateTime = dateTime.AddTicks(1L);
 
             //Assert
-
             Assert.AreEqual(expectedName, review.name);
             Assert.AreEqual(expectedRating, review.rating);
             Assert.AreEqual(expectedComment, review.comment);
             Assert.AreEqual(expectedDateTime, review.dateTime);
+
+            Assert.AreNotSame(expectedName, review.name);
+            Assert.AreNotSame(expectedName, review.comment);
+            Assert.AreNotSame(expectedRating, review.rating);
+            Assert.AreNotSame(expectedDateTime, review.dateTime);
 
             Assert.AreNotEqual(name, review.name);
             Assert.AreNotEqual(rating, review.rating);
@@ -64,10 +68,47 @@ namespace UnitTestProject0
             //Assert
 
             Assert.AreNotEqual(baseReview, review);
+            Assert.AreNotSame(expectedReview, review);
+
             Assert.AreEqual(expectedReview.name, review.name);
             Assert.AreEqual(expectedReview.rating, review.rating);
             Assert.AreEqual(expectedReview.dateTime, review.dateTime);
             Assert.AreEqual(expectedReview.comment, review.comment);
+
+            Assert.AreNotSame(expectedReview.name, review.name);
+            Assert.AreNotSame(expectedReview.rating, review.rating);
+            Assert.AreNotSame(expectedReview.dateTime, review.dateTime);
+            Assert.AreNotSame(expectedReview.comment, review.comment);
+        }
+
+        [TestMethod]
+        public void TestCopy()
+        {
+            //Arrange
+            string baseName = "Miek Russ";
+            string baseComment = "God-like food.";
+            decimal baseRating = 10.0M;
+            DateTime baseDate = DateTime.UtcNow;
+
+            Review baseReview = new Review(baseName, baseComment, baseRating, baseDate);
+
+            Review expected, actual;
+            //Act
+            expected = baseReview.Copy();
+            actual = baseReview.Copy();
+            baseReview = new Review("Not Miek Russ", "Trash-tier", 0M, new DateTime(1,1,1));
+
+
+            //Assert
+            Assert.AreNotSame(expected, actual);
+            Assert.AreEqual(expected.name, actual.name);
+            Assert.AreEqual(expected.comment, actual.comment);
+            Assert.AreEqual(expected.rating, actual.rating);
+            Assert.AreEqual(expected.dateTime, actual.dateTime);
+            Assert.AreNotSame(expected.name, actual.name);
+            Assert.AreNotSame(expected.comment, actual.comment);
+            Assert.AreNotSame(expected.rating, actual.rating);
+            Assert.AreNotSame(expected.dateTime, actual.dateTime);
         }
     }
 }
