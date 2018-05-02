@@ -8,7 +8,7 @@ namespace ClassLibraryProject0
 {
     public class RestaurantList : List<Restaurant>
     {
-        public List<Restaurant> Search(string toFind)
+        public IEnumerable<Restaurant> Search(string toFind)
         {
             List<Restaurant> toReturn = new List<Restaurant>();
 
@@ -22,7 +22,7 @@ namespace ClassLibraryProject0
 
             return toReturn;
         }
-        public List<Restaurant> TopThree()
+        public IEnumerable<Restaurant> TopThree()
         {
             var query = (from current in this
                          orderby current.GetAverage() descending
@@ -35,6 +35,43 @@ namespace ClassLibraryProject0
             }
           
             return topList;
+        }
+        public IEnumerable<Restaurant> GetOrderNameAscending()
+        {
+            IEnumerable<Restaurant> restaurants = this;
+            restaurants = from current in this orderby current.name ascending select current;
+            return restaurants;
+        }
+        public IEnumerable<Restaurant> GetOrderNameDescending()
+        {
+            IEnumerable<Restaurant> restaurants = this;
+            restaurants = from current in this orderby current.name descending select current;
+            return restaurants;
+        }
+        public IEnumerable<Restaurant> GetOrderAverageDescending()
+        {
+            IEnumerable<Restaurant> restaurants = this;
+            restaurants = from current in this orderby current.GetAverage() descending select current;
+            return restaurants;
+        }
+        public IEnumerable<Restaurant> GetOrderAverageAscending()
+        {
+            IEnumerable<Restaurant> restaurants = this;
+            restaurants = from current in this orderby current.GetAverage() ascending select current;
+            return restaurants;
+        }
+
+        public IEnumerable<Restaurant> GetOrderReviewSumAscending()
+        {
+            IEnumerable<Restaurant> restaurants = this;
+            restaurants = from current in this orderby current.GetReviews().Count() ascending select current;
+            return restaurants;
+        }
+        public IEnumerable<Restaurant> GetOrderReviewSumDescending()
+        {
+            IEnumerable<Restaurant> restaurants = this;
+            restaurants = from current in this orderby current.GetReviews().Count() descending select current;
+            return restaurants;
         }
     }
 }

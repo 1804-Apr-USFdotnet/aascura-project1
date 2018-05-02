@@ -7,7 +7,6 @@ using System.Runtime.Serialization.Json;
 
 
 using ClassLibraryProject0;
-using DataAccessLayerProject0;
 
 namespace Project0
 {
@@ -29,11 +28,9 @@ namespace Project0
             logger.Info("Starting up.");
             string input;
 
-            Project0_dbCrud dbCrud = new Project0_dbCrud();
-            RestaurantList restaurants;
+            RestaurantRepo repository = new RestaurantRepo();
+            RestaurantList restaurants = repository.GetRestaurants();
 
-            
-            InitializeFromDb(out restaurants, dbCrud);
             if (restaurants.Count == 0)
             {
                 logger.Warn("Empty restaurant list.  May be indicative of failure to read.");
@@ -43,7 +40,6 @@ namespace Project0
             
             do
             {
-
                 DisplayMenu();
                 input = GetInput("PLEASE INPUT MENU OPTION. >");
                 input = input.ToUpper();

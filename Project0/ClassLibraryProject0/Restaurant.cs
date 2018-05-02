@@ -10,7 +10,7 @@ using System.IO;
 namespace ClassLibraryProject0
 {
     [DataContract]
-    public class Restaurant /*: IComparable<Restaurant>*/
+    public class Restaurant
     {
         [DataMember]
         public string name { get; private set; }
@@ -69,17 +69,6 @@ namespace ClassLibraryProject0
             }
             return (reviews.Count > 0)? (ratingSum / reviews.Count) : 0;
         }
-
-/*        public int CompareTo(Restaurant other)
-        {
-            decimal difference;
-            if (other == null)
-            {
-                return 1;
-            }
-            difference = this.GetAverage() - other.GetAverage();
-            return (int) difference;
-        }*/
 
         public bool Contains(string toFind)
         {

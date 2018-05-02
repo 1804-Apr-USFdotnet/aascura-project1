@@ -47,11 +47,18 @@
     <Compile Include="Restaurant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestaurantList.cs" />
+    <Compile Include="RestaurantRepo.cs" />
     <Compile Include="RestaurantSerializer.cs" />
     <Compile Include="Review.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayerProject0\DataAccessLayerProject0.csproj">
+      <Project>{79dacfd2-9445-46a6-9a22-fb96994a10c4}</Project>
+      <Name>DataAccessLayerProject0</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

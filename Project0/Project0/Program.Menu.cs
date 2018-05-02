@@ -51,7 +51,7 @@ namespace Project0
 
         static void DisplayTopThree(RestaurantList toParse)
         {
-            List<Restaurant> topThree = toParse.TopThree();
+            IEnumerable<Restaurant> topThree = toParse.TopThree();
             foreach (Restaurant current in topThree)
             {
                 Console.WriteLine("Name: {0}", current.name);
@@ -62,10 +62,18 @@ namespace Project0
         static void DisplayAllRestaurants(RestaurantList toDisplay)
         {
             Console.WriteLine("All restaurants");
-            DisplayRestaurantList(toDisplay);
+            DisplayOrderedRestaurantList(toDisplay);
         }
 
         static void DisplayRestaurantList(RestaurantList toDisplay)
+        {
+            for (int i = 0; i < toDisplay.Count; i++)
+            {
+                Console.WriteLine("{0}. {1}", i+1, toDisplay[i].name);
+            }
+        }
+
+        static void DisplayOrderedRestaurantList(RestaurantList toDisplay)
         {
             string input;
             int parsedInput = 0;
@@ -97,7 +105,7 @@ namespace Project0
             switch (parsedInput)
             {
                 case 1:
-                    queryResults = from current in toDisplay orderby current.name ascending select current;
+                    queryResults = toDisplay.GetOrderNameAscending();
                     int i = 1;
                     foreach (var current in queryResults)
                     {
@@ -106,7 +114,7 @@ namespace Project0
                     }
                     break;
                 case 2:
-                    queryResults = from current in toDisplay orderby current.name descending select current;
+                    queryResults = toDisplay.GetOrderNameDescending();
                     i = 1;
                     foreach (var current in queryResults)
                     {
@@ -115,7 +123,7 @@ namespace Project0
                     }
                     break;
                 case 3:
-                    queryResults = from current in toDisplay orderby current.GetAverage() descending select current;
+                    queryResults = toDisplay.GetOrderAverageDescending();
                     i = 1;
                     foreach (var current in queryResults)
                     {
@@ -124,7 +132,7 @@ namespace Project0
                     }
                     break;
                 case 4:
-                    queryResults = from current in toDisplay orderby current.GetAverage() ascending select current;
+                    queryResults = toDisplay.GetOrderAverageAscending();
                     i = 1;
                     foreach (var current in queryResults)
                     {
@@ -133,7 +141,7 @@ namespace Project0
                     }
                     break;
                 case 5:
-                    queryResults = from current in toDisplay orderby current.GetReviews().Count() descending select current;
+                    queryResults = toDisplay.GetOrderReviewSumDescending();
                     i = 1;
                     foreach (var current in queryResults)
                     {
@@ -142,7 +150,7 @@ namespace Project0
                     }
                     break;
                 case 6:
-                    queryResults = from current in toDisplay orderby current.GetReviews().Count() ascending select current;
+                    queryResults = toDisplay.GetOrderReviewSumAscending();
                     i = 1;
                     foreach (var current in queryResults)
                     {
@@ -153,19 +161,6 @@ namespace Project0
                 default:
                     break;
             }
-
-//            if (toDisplay == null)
-//            {
-//                return;
-//            }
-//            foreach (var current in queryResults)
-//            {
-//                Console.WriteLine(current.);
-//            }
-///*            for (int i = 0; i < toDisplay.Count; i++)
-//            {
-//                Console.WriteLine((i + 1) + ". " +toDisplay[i].name);
-//            }*/
         }
 
 
@@ -231,13 +226,13 @@ namespace Project0
 
         static void SearchRestaurants(RestaurantList restaurants)
         {
-            List<Restaurant> relatedRestaurants;
+            IEnumerable<Restaurant> relatedRestaurants;
             string toFind;
             Console.WriteLine("SEARCH");
             toFind = GetInput("Please enter search term. >");
             relatedRestaurants = restaurants.Search(toFind);
             Console.WriteLine("Related restaurants:");
-            if (relatedRestaurants.Count == 0)
+            if (relatedRestaurants.Count<Restaurant>() == 0)
             {
                 Console.WriteLine("None");
             }

@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-using ClassLibraryProject0;
 using DataAccessLayerProject0;
-namespace Project0
+
+namespace ClassLibraryProject0
 {
-    partial class Program
+    public class RestaurantRepo
     {
-        public static void InitializeFromDb(out RestaurantList restaurants, Project0_dbCrud dbCrud)
+        Project0_dbCrud dbCrud;
+
+        public RestaurantRepo()
+        {
+            dbCrud = new Project0_dbCrud();
+        }
+        
+        public RestaurantList GetRestaurants()
         {
             List<restaurant> dbRestaurants = dbCrud.GetRestaurants();
-            restaurants = new RestaurantList();
+            RestaurantList restaurants = new RestaurantList();
             foreach (restaurant current in dbRestaurants)
             {
                 List<Review> toAddReviews = new List<Review>();
@@ -24,6 +30,8 @@ namespace Project0
                 }
                 restaurants.Add(new Restaurant(current.name, current.address, current.phoneNumber, toAddReviews));
             }
+            return restaurants;
         }
+
     }
 }

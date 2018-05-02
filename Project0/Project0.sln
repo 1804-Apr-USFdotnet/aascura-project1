@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project0", "Project0\Project0.csproj", "{212E30A9-6066-4BF5-9BA0-A97DE45A230D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleLayerProject0", "Project0\ConsoleLayerProject0.csproj", "{212E30A9-6066-4BF5-9BA0-A97DE45A230D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibraryProject0", "ClassLibraryProject0\ClassLibraryProject0.csproj", "{461BF14D-93A0-480B-8008-EB8B824244B7}"
 EndProject

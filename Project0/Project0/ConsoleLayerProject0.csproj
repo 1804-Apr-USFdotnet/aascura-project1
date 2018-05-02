@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.DataAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Program.Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,10 +75,6 @@
     <ProjectReference Include="..\ClassLibraryProject0\ClassLibraryProject0.csproj">
       <Project>{461bf14d-93a0-480b-8008-eb8b824244b7}</Project>
       <Name>ClassLibraryProject0</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataAccessLayerProject0\DataAccessLayerProject0.csproj">
-      <Project>{79dacfd2-9445-46a6-9a22-fb96994a10c4}</Project>
-      <Name>DataAccessLayerProject0</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
