@@ -10,7 +10,7 @@ using System.IO;
 namespace ClassLibraryProject0
 {
     [DataContract]
-    public class Restaurant
+    public class Restaurant : EntityBase
     {
         [DataMember]
         public string name { get; private set; }
@@ -22,8 +22,23 @@ namespace ClassLibraryProject0
         [DataMember]
         private List<Review> reviews;
 
+        public Restaurant(string name, string address, string phoneNum, List<Review> reviews, int id)
+        {
+            this.id = id;
+            this.name = String.Copy(name);
+            this.address = String.Copy(address);
+            this.phoneNum = String.Copy(phoneNum);
+            this.reviews = new List<Review>();
+
+            foreach (Review current in reviews)
+            {
+                this.reviews.Add(new Review(current));
+            }
+        }
+
         public Restaurant(string name, string address, string phoneNum, List<Review> reviews)
         {
+            id = -1;
             this.name = String.Copy(name);
             this.address = String.Copy(address);
             this.phoneNum = String.Copy(phoneNum);
@@ -37,6 +52,7 @@ namespace ClassLibraryProject0
 
         public Restaurant(Restaurant toCopy)
         {
+            id = -1;
             name = String.Copy(toCopy.name);
             address = String.Copy(toCopy.address);
             phoneNum = String.Copy(toCopy.phoneNum);

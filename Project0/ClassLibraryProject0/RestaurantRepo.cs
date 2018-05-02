@@ -8,7 +8,7 @@ using DataAccessLayerProject0;
 
 namespace ClassLibraryProject0
 {
-    public class RestaurantRepo
+    public class RestaurantRepo : IRepository<Restaurant>
     {
         Project0_dbCrud dbCrud;
 
@@ -16,7 +16,22 @@ namespace ClassLibraryProject0
         {
             dbCrud = new Project0_dbCrud();
         }
-        
+
+        public void Create(Restaurant entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Restaurant entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Restaurant GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public RestaurantList GetRestaurants()
         {
             List<restaurant> dbRestaurants = dbCrud.GetRestaurants();
@@ -26,12 +41,16 @@ namespace ClassLibraryProject0
                 List<Review> toAddReviews = new List<Review>();
                 foreach (review currentReview in current.reviews)
                 {
-                    toAddReviews.Add(new Review(currentReview.reviewerName, currentReview.comment, (decimal)currentReview.rating, currentReview.date));
+                    toAddReviews.Add(new Review(currentReview.reviewerName, currentReview.comment, (decimal)currentReview.rating, currentReview.date, current.id));
                 }
-                restaurants.Add(new Restaurant(current.name, current.address, current.phoneNumber, toAddReviews));
+                restaurants.Add(new Restaurant(current.name, current.address, current.phoneNumber, toAddReviews, current.id));
             }
             return restaurants;
         }
 
+        public void Update(Restaurant entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
