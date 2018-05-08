@@ -1,0 +1,99 @@
+﻿@model WebApplicationProject1.Models.RestaurantWeb
+
+@{
+                /**/
+
+                ViewBag.Title = "Details";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+                string avg = Model.GetAverage().ToString();
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RestaurantWeb</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt>
+            Average
+        </dt>
+        <dd>
+            @Html.Raw(avg)
+        </dd>
+    </dl>
+</div>
+
+<h3>Reviews</h3>
+<hr />
+@Html.ActionLink("Add New Review","CreateReview", new { restId = Model.Id })
+@foreach (var review in Model.Reviews)
+{
+    <dl class="dl-horizontal">
+        <dt>
+            Reviewer Name:
+        </dt>
+
+        <dd>
+            @review.ReviewerName
+        </dd>
+
+        <dt>
+            Comment:
+        </dt>
+
+        <dd>
+            @review.Comment
+        </dd>
+
+        <dt>
+            Rating:
+        </dt>
+
+        <dd>
+            @review.Rating
+        </dd>
+
+        <dt>
+            Date:
+        </dt>
+
+        <dd>
+            @review.DateTime
+        </dd>
+        <dt>
+            @Html.ActionLink("Edit", "EditReview", new { id = review.Id })
+        </dt>
+        <dd></dd>
+        <dt>
+            @Html.ActionLink("Delete", "DeleteReview", new { id = review.Id })
+        </dt>
+        <dd></dd>
+    </dl>
+}
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
